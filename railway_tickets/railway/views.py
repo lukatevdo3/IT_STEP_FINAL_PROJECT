@@ -192,6 +192,18 @@ class ViewAndReturnPage(View):
         id_num = request.POST.get('id')
         submit = request.POST.get('button')
 
+        if submit == 'information':
+            if not User.objects.filter(id=id_num).exists():
+                return render(request, 'railway_tickets/return_page.html', {'error': 'Please enter a correct ID number'})
+                
+            user = User.objects.get(id=id_num)
+            tickets = Ticket.objects.filter(user_id=user)
+            return render(request, 'railway_tickets/return_page.html', {
+                'tickets': tickets,
+                'user': user,
+                'show_modal': True
+            })
+
         if not Ticket.objects.filter(qr_code=qr_code).exists():
             return render(request, 'railway_tickets/return_page.html', {'error': 'Please enter a correct QR code'})
         
@@ -206,15 +218,6 @@ class ViewAndReturnPage(View):
                 return render(request, 'railway_tickets/return_page.html', {'ticket': ticket, 'user': user, 'show_return_modal': True})                           
             else:
                 messages.error(request, 'This ticket has not been paid yet!')
-                return render(request, 'railway_tickets/return_page.html')
-        elif submit == 'information':
-            if ticket.paid:
-                return render(request, 'railway_tickets/return_page.html', {
-                    'ticket': ticket,
-                    'user': user,
-                    'show_modal': True
-                })
-            else:
                 return render(request, 'railway_tickets/return_page.html')
         elif submit == 'pay':
             if ticket.paid:

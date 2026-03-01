@@ -13,25 +13,30 @@
         </div>
         <button type="button" class="btn-button"><a href="{% url 'index' %}">Home</a></button>
     </div>
- 
+
     <div class="forms">
+        <h2>Check Ticket Info</h2>
         <form method="post">
             {% csrf_token %}
+            <label class="form-label">ID Number</label>
+            <input type="text" name="id" placeholder="Enter Your ID Number" required>
+            <button type="submit" name="button" value="information">Info</button>
+        </form>
+    </div>
 
-            <label class="form-label">Special Code:</label>
+    <div class="forms">
+    <h2>Return / Pay Ticket</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label class="form-label">Special Code</label>
             <input type="text" name="qr-code" placeholder="Enter Special Code" required>
-
-            <label class="form-label">ID number:</label>
+            <label class="form-label">ID Number</label>
             <input type="text" name="id" placeholder="Enter Your ID Number" required>
             <div class="buttons-row">
                 <button type="submit" name="button" value="return">Return</button>
-                <button type="submit" name="button" value="information">Info</button>
                 <button type="submit" name="button" value="pay">Pay</button>
             </div>
         </form>
-        {% if error %}
-            <h3 class="flash-message error">{{ error }}</h3>
-        {% endif %}
     </div>
 
     
@@ -41,8 +46,11 @@
                 <h2>Ticket Info</h2>
                 <p>Name: {{ user.name }}</p>
                 <p>Surname: {{ user.surname }}</p>
-                <p>QR Code: {{ ticket.qr_code }}</p>
-                <p>Seat: {{ ticket.seat_id.seat_num }}</p>
+                {% for ticket in tickets %}
+                    <p><strong>QR Code:</strong> {{ ticket.qr_code }}</p>
+                    <p><strong>Seat:</strong> {{ ticket.seat_id.seat_num }}</p>
+                    <p><strong>Wagon:</strong> {{ ticket.seat_id.wagon_num }}</p>
+                {% endfor %}
                 <button onclick="this.parentElement.parentElement.style.display='none'">Close</button>
             </div>
         </div>
