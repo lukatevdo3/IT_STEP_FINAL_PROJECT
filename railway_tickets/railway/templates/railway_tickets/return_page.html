@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Return Page {% endblock title %}
+
+{% block content %}
+
+    <div class="container1">
+        <div class="logo-title">
+            <img src="{% static 'images/railway.png' %}" alt="logo" class="logo">
+            <h1 class="page-title"> IT STEP RAILWAY </h1>
+        </div>
+        <button type="button" class="btn-button"><a href="{% url 'index' %}">Home</a></button>
+    </div>
+ 
+    <div class="forms">
+        <form method="post">
+            {% csrf_token %}
+
+            <label class="form-label">Special Code:</label>
+            <input type="text" name="qr-code" placeholder="Enter Special Code" required>
+
+            <label class="form-label">ID number:</label>
+            <input type="text" name="id" placeholder="Enter Your ID Number" required>
+            <div class="buttons-row">
+                <button type="submit" name="button" value="return">Return</button>
+                <button type="submit" name="button" value="information">Info</button>
+                <button type="submit" name="button" value="pay">Pay</button>
+            </div>
+        </form>
+        {% if error %}
+            <h3 class="flash-message error">{{ error }}</h3>
+        {% endif %}
+    </div>
+
+    
+    {% if show_modal %}
+        <div class="modal" style="display:flex;">
+            <div class="modal-content">
+                <h2>Ticket Info</h2>
+                <p>Name: {{ user.name }}</p>
+                <p>Surname: {{ user.surname }}</p>
+                <p>QR Code: {{ ticket.qr_code }}</p>
+                <p>Seat: {{ ticket.seat_id.seat_num }}</p>
+                <button onclick="this.parentElement.parentElement.style.display='none'">Close</button>
+            </div>
+        </div>
+    {% endif %}
+
+
+    {% if show_return_modal %}
+        <div class="modal" style="display: flex;">
+            <div class="modal-content">
+                <h2>Confirm Return</h2>
+                <p>Are you sure you want to return this ticket?</p>
+                <p><strong>QR Code:</strong> {{ ticket.qr_code }}</p>
+                <p><strong>Seat:</strong> {{ ticket.seat_id.seat_num }}</p>
+                <div class="buttons-row">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="qr-code" value="{{ ticket.qr_code }}">
+                        <input type="hidden" name="id" value="{{ user.id }}">
+                        <button type="submit" name="button" value="confirm_return">Yes, Return</button>
+                    </form>
+                    <button onclick="this.parentElement.parentElement.parentElement.style.display='none'">Cancel</button>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock content %}
+

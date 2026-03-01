@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} IT STEP RAILWAY {% endblock title %}
+
+{% block content %}
+    <div class="container1">
+        <div class="logo-title">
+            <img src="{% static 'images/railway.png' %}" alt="logo" class="logo">
+            <h1> IT STEP RAILWAY </h1>
+        </div>
+        <button type="button" class="btn-button"><a href="{% url 'info' %}">Return/Check/Pay</a></button>        
+    </div>
+    
+
+    <h1 class="choose-text">CHOOSE YOUR DESTINATION</h1>
+    <form method="get">
+        <div class="search-bar">
+            <input type="text" name="from_place" placeholder="Enter Starting Station">
+            <input type="text" name="to_place" placeholder="Enter Ending Station">
+            <input type="date" name="day" min="{{ today }}">
+            <button type="submit" class="search-button">&#128269;</button>
+        </div>
+    </form>
+    <div class="routes-section">
+        <div class="container2">
+            <h1><strong>Tbilisi Routes</strong></h1>
+            <p>Tbilisi &#8594; Batumi</p>
+            <p>Tbilisi &#8594; Kutaisi</p>
+        </div>
+
+        <div class="container2">
+            <h1><strong>Batumi Routes</strong></h1>
+            <p>Batumi &#8594; Tbilisi</p>
+            <p>Batumi &#8594; Kutaisi</p>
+        </div>
+
+        <div class="container2">
+            <h1><strong>Kutaisi Routes</strong></h1>
+            <p>Kutaisi &#8594; Batumi</p>
+            <p>Kutaisi &#8594; Tbilisi</p>
+        </div>
+    </div>
+
+    {% for m in messages %}
+        <div class="flash-message">{{ m }}</div>
+    {% endfor %}
+
+
+
+{% endblock content %}
+

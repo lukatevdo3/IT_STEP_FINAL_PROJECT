@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} IT STEP RAILWAY {% endblock title %}
+
+{% block content %}
+    
+
+    <div class="container1">
+        <div class="logo-title">
+            <img src="{% static 'images/railway.png' %}" alt="logo" class="logo">
+            <h1 class="page-title"> IT STEP RAILWAY </h1>
+        </div>
+        <button type="button" class="btn-button"><a href="{% url 'index' %}">Home</a></button>
+    </div>
+
+    <h1 class="choose-text"> SELECT YOUR SEAT </h1>
+
+    {% if station %}
+    <div class="seats-grid">
+        <div class="container4">
+            <div class="container4_text">
+                <p><strong>FROM: </strong>{{ station.from_place }} <strong>&#8594; TO: </strong>{{ station.to_place }}</p>
+            </div>
+            <div class="container4_text">
+                <p><strong>Departure Time: </strong>{{ station.from_time }}</p>
+                <p><strong>Arrival Time: </strong>{{ station.to_time }}</p>
+            </div>
+        </div>
+    </div>
+
+   
+    <h1 class="choose-text2"> &#8595; </h1>
+    <div class="wagon-grid">
+        {% for wagon in wagons %}
+            <div class="wagon-container">
+                <p><strong>Wagon {{ wagon.wagon_num }}</strong></p>
+                <div class="wagon-seat-container">
+                    {% for seat in seats %}  
+                        {% if seat.wagon_num == wagon.wagon_num %}  
+                            {% if seat.id in taken_seat_ids %}
+                            <button disabled class="btn-seat taken">{{ seat.seat_num }}</button>
+                            {% else %}
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="train_id" value="{{ station.train_id.id}}">
+                                    <input type="hidden" name="station_id" value="{{ station.id }}">
+                                    <input type="hidden" name="count" value="{{ count }}">
+                                    <input type="hidden" name="travel_date" value="{{ travel_date }}">
+                                    <button type="submit" name = 'seat_id' value="{{ seat.id }}" class="btn-seat">{{ seat.seat_num }}</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}    
+                </div>
+            </div>          
+        {% endfor %}
+    </div>
+    {% endif %}
+
+{% endblock content %}

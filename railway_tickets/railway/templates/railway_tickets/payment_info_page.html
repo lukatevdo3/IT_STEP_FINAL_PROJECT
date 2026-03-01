@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Payment Info {% endblock title %}
+
+{% block content %}
+    <div class="container1">
+        <div class="logo-title">
+            <img src="{% static 'images/railway.png' %}" alt="logo" class="logo">
+            <h1 class="page-title"> IT STEP RAILWAY </h1>
+        </div>
+    </div>
+    
+    <h1 class="choose-text">Ticket Information: </h1>
+
+    <div class="tickets-wrapper">
+        <div class="ticket-paper">
+            <div class="ticket-header">
+                <h2>User:</h2>
+            </div>
+            <hr class="tickets-hr">
+            <div class="ticket-body">
+                <p><strong>Name:</strong> {{ user.name }}</p>
+                <p><strong>Surname:</strong> {{ user.surname }}</p>
+            </div>
+            <hr class="tickets-hr">
+            {% for ticket in tickets %}
+            <div class="ticket-body">
+                <h3>Ticket {{ forloop.counter }}</h3>
+                <p><strong>From:</strong> {{ ticket.station_id.from_place }}</p>
+                <p><strong>To:</strong> {{ ticket.station_id.to_place }}</p>
+                <p><strong>Day:</strong> {{ ticket.station_id.day }}</p>
+                <p><strong>Departure:</strong> {{ ticket.station_id.from_time }}</p>
+                <p><strong>Arrival:</strong> {{ ticket.station_id.to_time }}</p>
+                <p><strong>Wagon:</strong> {{ ticket.seat_id.wagon_num }}</p>
+                <p><strong>Seat:</strong> {{ ticket.seat_id.seat_num }}</p>
+                <p><strong>Secret Code:</strong> {{ ticket.qr_code }}</p>
+            </div>
+            <hr class="tickets-hr">
+            {% endfor %}
+            <div class="ticket-footer">
+                <p class="success">Congratulations on your Successfull payment on your ticket('s). Keep in mind</p>
+                <p class="success">you have to save your "Special Code" in order to return or access your ticket!</p>
+                <p class="warning">⚠️ Don't forget to save your secret code!</p>
+            </div>
+    </div>
+
+    <button class="home-button"><a href="{% url 'index' %}">Go Home</a></button>
+
+{% endblock content %}

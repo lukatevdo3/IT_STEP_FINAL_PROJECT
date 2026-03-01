@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} User Info {% endblock title %}
+
+{% block content %}
+    <div class="container1">
+        <div class="logo-title">
+            <img src="{% static 'images/railway.png' %}" alt="logo" class="logo">
+            <h1 class="page-title"> IT STEP RAILWAY </h1>
+        </div>
+        <button type="button" class="btn-button"><a href="{% url 'index' %}">Home</a></button>
+    </div>
+
+    <h1 class="choose-text">User Information: </h1>
+
+    <div class="container5">
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name = 'seat_id' value="{{ seat.id }}">
+            <input type="hidden" name = 'station_id' value="{{ station.id }}">
+            <input type="hidden" name = 'train_id' value="{{ train_id }}">
+            <input type="hidden" name = 'count' value="{{ count }}">
+            <input type="hidden" name="travel_date" value="{{ travel_date }}">
+
+            <label class="form-label">ID Number</label>
+            <input type="text" name='id' placeholder="Enter Your ID Number" required>
+
+            <label class="form-label">Name</label>
+            <input type="text" name='name' placeholder="Enter Your Name" required>
+
+            <label class="form-label">Surname</label>
+            <input type="text" name='surname' placeholder="Enter Your Surname" required>
+
+            <label class="form-label">Email</label>
+            <input type="email" name='email' placeholder="Enter Your Email" required>
+
+            <label class="form-label">Phone Number</label>
+            <input type="tel" name='phone-number' placeholder="Enter Your Phone Number" pattern="\+?\d{9,15}" required>
+            <button type="submit" class="proceed">PROCEED</button>
+        </form>
+    </div>
+
+{% endblock content %}
+

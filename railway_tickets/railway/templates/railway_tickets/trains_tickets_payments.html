@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Ticket Payments {% endblock title %}
+
+{% block content %}
+
+    <div class="container1">
+        <div class="logo-title">
+            <img src="{% static 'images/railway.png' %}" alt="logo" class="logo">
+            <h1 class="page-title"> IT STEP RAILWAY </h1>
+        </div>
+        <button type="button" class="btn-button"><a href="{% url 'index' %}">Home</a></button>
+    </div>
+ 
+    <h1 class="choose-text">Payment Information: </h1>
+    
+    <div class="container5">
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="ticket_ids" value="{{ ticket_ids }}">
+
+            <label class="form-label" >Card Number</label>
+            <input type="text" name='card-number' placeholder="Enter Your Card Number" required>
+
+            <label class="form-label">CVV</label>
+            <input type="text" name='cvv' placeholder="Enter Your CVV" pattern="\d{3}" maxlength="3" required>
+
+            <label class="form-label">Date</label>
+            <input type="text" name='date' placeholder="MM/YY" pattern="\d{2}/\d{2}" maxlength="5" required>
+            <button type="submit" class="proceed">Finish Payment</button>
+        </form>     
+    </div>
+
+
+{% endblock content %}
+

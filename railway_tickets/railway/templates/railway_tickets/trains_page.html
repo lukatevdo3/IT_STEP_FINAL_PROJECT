@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Train Routes {% endblock title %}
+
+{% block content %}
+
+    <div class="container1">
+        <div class="logo-title">
+            <img src="{% static 'images/railway.png' %}" alt="logo" class="logo">
+            <h1 class="page-title"> IT STEP RAILWAY </h1>
+        </div>
+        <button type="button" class="btn-button"><a href="{% url 'info' %}">Return/Check/Pay</a></button>
+    </div>
+    
+    <h1 class="choose-text"> TRAIN ROUTES </h1>
+
+    <div class="stations-grid">
+        {% for station in stations %}
+            <div class="container3">
+                <h1 class="train"> "{{station.train_id.name}}" </h1>
+                <div class="container3_text">
+                    <p><strong>FROM: </strong>{{ station.from_place }} <strong>&#8594; TO: </strong>{{ station.to_place }}</p>
+                </div>
+                <div class="container3_text">
+                    <p><strong>Departure Time: </strong>{{ station.from_time }}</p>
+                    <p><strong>Arrival Time: </strong>{{ station.to_time }}</p>
+                </div>
+                <p><strong>Day: {{ station.day }}</strong></p>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="train_id" value="{{ station.train_id.id }}">
+                    <input type="hidden" name="station_id" value="{{ station.id }}">
+                    <input type="hidden" name="travel_date" value="{{ travel_date }}">
+                    <input type="number" name="count" value="1" min="1" max="10">
+                    <button type="submit" class="btn-purchase">Purchase</button>
+                </form>
+            </div>
+        {% empty %}
+            <div class="container3">
+                <h1 class="train">No trains found.</h1>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <button class="home-button"><a href="{% url 'index' %}">HOME</a></button>
+
+
+{% endblock content %}
+
